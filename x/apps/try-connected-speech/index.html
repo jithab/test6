@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <meta name="color-scheme" content="light">
+		<meta name="mobile-web-app-capable" content="yes">
+
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src * filesystem: cdvfile: file:; img-src 'self' data: content:;">
+        <link rel="stylesheet" href="main.css">
+
+		<title>Try Connected Speech</title>
+    </head>
+<body>
+
+<header>
+    <div id="prev">Prev</div>
+    <div id="home">Help</div>
+    <div id="next">Next</div>
+</header>
+
+<article>
+    <div id="main">
+        <div class="title">The North Wind and the Sun</div>
+        <div class="body"></div>
+    </div>
+
+    <div id="help">
+        <div class="body">
+            <ol>
+                <li>Study the diacritics <i>devoiced</i>, <i>aspirated</i> and <i>dental</i>. </li>
+                <li>Learn to enunciate the sentence fragment.</li>
+                <li>Record it. Listen and identify your shortcomings.</li>
+                <li>Repeat the practice until you are satisfied.</li>
+            </ol>
+            <div class="ab">&nbsp;</div>
+            <div>Copyright</div>
+            <ul>
+                <li><a href="https://doi.org/10.1017/S0025100304001768">British English: Peter Roach</a></li>
+                <li><a href="https://doi.org/10.1017/S0025100303001221">American English: James Hillenbrand</a></li>
+            </ul>
+
+            <div class="ab">&nbsp;</div>
+
+            <div style="text-align:center">lab&#64;perwad.<span style="display :none">g</span>in</div>
+            &nbsp;
+            <div style="text-align:center"><a href="https://perwad.in/perwad-accent-modification-project.html">
+                Perwad Accent Modification Project
+            </a></div>
+        </div>
+    </div>
+
+
+    <div id="submain" data-index="-1" style="display:none">
+        <div id="countbox"><span id="count">&nbsp;</span> / 10</div>
+        <div id="explainbox">
+            <div class="ot">&nbsp;</div>
+            <div class="ob">&nbsp;</div>
+            <div class="pt">Phonemic</div>
+            <div class="pb">&nbsp;</div>
+            <div class="at">Allophonic</div>
+            <div class="ab">&nbsp;</div>
+        </div>
+        <div id="buttongroup">
+            <div style="text-align: center;">
+                <button id="start">Listen</button>
+            </div>
+            <div id="recordbox">
+                <div><button id="recording"><span class="text">Record</span><span id="record_duration"></span></button></div>
+                <div> &nbsp; </div>
+                <div><button id="play"><span class="text">Play</span><span id="audio_duration"></span></button></div>
+            </div>      
+        </div>
+    </div>
+</article>
+
+<footer><div id="langname"></div><div id="change">Change</div></footer>
+
+<script src="cordova.js"></script>
+<script src="jquery.min.js"></script>
+<script src="metadata.js"></script>
+<script src="script.js"></script>
+</body></html> 
