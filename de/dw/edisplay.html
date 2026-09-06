@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subtitle Editor</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 100px;
+      }
+
+      .subtitle-row {
+        gap: 8px;
+        margin-bottom: 10px;
+        padding: 8px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .line-number {
+        font-weight: bold;
+      }
+
+      input[type="number"] {
+        width: 70px;
+      }
+
+      .sent-text {
+        flex: 1 1 100%;
+        font-size: 0.95rem;
+        color: #333;
+      }
+
+      .control-group {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin: 10px 0;
+      }
+
+      .shift-btn {
+        padding: 2px 6px;
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .play-btn {
+        padding: 6px 12px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #e0e0e0;
+        border: 1px solid #999;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .play-btn:hover {
+        background-color: #d5d5d5;
+      }
+
+      button {
+        padding: 4px 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>📼 Subtitle Editor</h2>
+
+    <div id="subtitleList"></div>
+
+    <br />
+    <button onclick="download()">⬇ Download JSON</button>
+
+    <script>
+      const subtitleList = document.getElementById("subtitleList");
+      let jsonData = null;
+
+      let audioContext;
+      let audioBuffer;
+      let sourceNode;
+      let currentSpeed = 1.0;
+      let playbackTimeout;
+
+      function getParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      function makeAbsolute(url) {
+        if (/^https?:\/\//i.test(url)) return url;
+        return new URL(url, window.location.href).href;
+      }
+
+      async function loadResources() {
+        const audioUrl = getParam("audio");
+        const jsonUrl = getParam("data");
+
+        if (!audioUrl || !jsonUrl) {
+          alert(
+            "Missing URL parameters. Example:\n?audio=example.mp3&data=subs.json"
+          );
+          return;
+        }
+
+        try {
+          audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          const response = await fetch(makeAbsolute(audioUrl));
+          const arrayBuffer = await response.arrayBuffer();
+          audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        } catch (e) {
+          alert("❌ Failed to load audio file: " + e.message);
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${makeAbsolute(jsonUrl)}?_=${Date.now()}`
+          );
+          jsonData = await response.json();
+
+          if (!jsonData.lines || !Array.isArray(jsonData.lines)) {
+            throw new Error("Invalid JSON format: missing 'lines' array.");
+          }
+
+          renderSubtitles();
+        } catch (err) {
+          alert("❌ Failed to load JSON: " + err.message);
+        }
+      }
+
+      function stopPlayback() {
+        if (sourceNode) {
+          try {
+            sourceNode.stop();
+          } catch {}
+          sourceNode.disconnect();
+          sourceNode = null;
+        }
+        clearTimeout(playbackTimeout);
+      }
+
+      function playSegment(start, end) {
+        if (!audioBuffer) return;
+
+        stopPlayback();
+
+        const duration = (end - start) / currentSpeed;
+
+        sourceNode = audioContext.createBufferSource();
+        sourceNode.buffer = audioBuffer;
+        sourceNode.playbackRate.setValueAtTime(
+          currentSpeed,
+          audioContext.currentTime
+        );
+        sourceNode.connect(audioContext.destination);
+        sourceNode.start(0, start, duration);
+
+        playbackTimeout = setTimeout(() => {
+          stopPlayback();
+        }, duration * 1000);
+      }
+
+      function shiftTime(entry, field, delta, inputStart, inputEnd) {
+        entry[field] = Math.max(0, entry[field] + delta);
+        inputStart.value = entry.start.toFixed(2);
+        inputEnd.value = entry.end.toFixed(2);
+        playSegment(entry.start, entry.end);
+      }
+
+      function renderSubtitles() {
+        subtitleList.innerHTML = "";
+
+        jsonData.lines.forEach((entry, index) => {
+          const row = document.createElement("div");
+          row.className = "subtitle-row";
+
+          const number = document.createElement("div");
+          number.className = "line-number";
+          number.textContent = index + 1 + ". " + entry.de;
+
+          const startGroup = document.createElement("div");
+          startGroup.className = "control-group";
+
+          const startDec = document.createElement("button");
+          startDec.className = "shift-btn";
+          startDec.textContent = "◀";
+
+          const startInput = document.createElement("input");
+          startInput.type = "number";
+          startInput.step = "0.01";
+          startInput.value = entry.start.toFixed(2);
+          startInput.addEventListener("change", () => {
+            entry.start = parseFloat(startInput.value);
+          });
+
+          const startInc = document.createElement("button");
+          startInc.className = "shift-btn";
+          startInc.textContent = "▶";
+
+          const endGroup = document.createElement("div");
+          endGroup.className = "control-group";
+
+          const endDec = document.createElement("button");
+          endDec.className = "shift-btn";
+          endDec.textContent = "◀";
+
+          const endInput = document.createElement("input");
+          endInput.type = "number";
+          endInput.step = "0.01";
+          endInput.value = entry.end.toFixed(2);
+          endInput.addEventListener("change", () => {
+            entry.end = parseFloat(endInput.value);
+          });
+
+          const endInc = document.createElement("button");
+          endInc.className = "shift-btn";
+          endInc.textContent = "▶";
+
+          startDec.onclick = () =>
+            shiftTime(entry, "start", -0.2, startInput, endInput);
+          startInc.onclick = () =>
+            shiftTime(entry, "start", 0.2, startInput, endInput);
+          endDec.onclick = () =>
+            shiftTime(entry, "end", -0.2, startInput, endInput);
+          endInc.onclick = () =>
+            shiftTime(entry, "end", 0.2, startInput, endInput);
+
+          startGroup.appendChild(startDec);
+          startGroup.appendChild(startInput);
+          startGroup.appendChild(startInc);
+
+          endGroup.appendChild(endDec);
+          endGroup.appendChild(endInput);
+          endGroup.appendChild(endInc);
+
+          const playBtn = document.createElement("button");
+          playBtn.className = "play-btn";
+          playBtn.textContent = "▶";
+          playBtn.addEventListener("click", () => {
+            playSegment(entry.start, entry.end);
+          });
+
+          row.appendChild(number);
+          row.appendChild(startGroup);
+          row.appendChild(endGroup);
+          row.appendChild(playBtn);
+          subtitleList.appendChild(row);
+        });
+      }
+
+      function download() {
+        jsonData.lines.forEach((entry) => {
+          entry.start = Math.round(entry.start * 100) / 100;
+          entry.end = Math.round(entry.end * 100) / 100;
+        });
+
+        const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "updated_subtitles.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      window.onload = loadResources;
+    </script>
+  </body>
+</html>

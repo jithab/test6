@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Favorite Podcasts</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        padding: 16px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      .podcast-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .podcast-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .podcast-title a {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1a73e8;
+        text-decoration: none;
+      }
+
+      .podcast-title a:hover {
+        text-decoration: underline;
+      }
+
+      .podcast-author {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 8px;
+      }
+
+      .podcast-description {
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎙️ My Favorite Podcasts</h1>
+
+    <div id="podcastList" class="podcast-list">
+      <!-- JavaScript will populate this -->
+    </div>
+
+    <script>
+      const podcasts = [
+        {
+          name: "Heretic in the House",
+          author: "Naomi Seidman. Shalom Hartman Institute of North America",
+          description:
+            "The popular depictions of Hasidic Jews don’t tell the whole story; they just tell the story the public wants to hear.",
+          url: "https://podcasts.apple.com/us/podcast/heretic-in-the-house/id1653818756",
+        },
+        {
+          name: "Morality in the 21st Century",
+          author: "BBC Radio 4",
+          description:
+            "Rabbi Lord Jonathan Sacks explores what morality means in the 21st Century. He speaks to some of the world’s leading thinkers.",
+          url: "https://podcasts.apple.com/us/podcast/morality-in-the-21st-century/id1434829453",
+        },
+        {
+          name: "How I Found My Voice",
+          author: "Samira Ahmed. Intelligence Squared",
+          description:
+            "It explores how some of the world’s greatest artists and thinkers became such compelling – and unique – communicators.",
+          url: "https://podcasts.apple.com/us/podcast/how-i-found-my-voice/id1455089930",
+        },
+        {
+          name: "The Masterclass Podcast",
+          author: "Louisa Lim. University of Melbourne",
+          description:
+            "Learning Through Listening: Lessons in audio from some of the best audio journalists in the world.",
+          url: "https://podcasts.apple.com/au/podcast/the-masterclass-podcast/id1350641953",
+        },
+        {
+          name: "One to One",
+          author: "BBC Radio 4",
+          description:
+            "Series of interviews in which broadcasters follow their personal passions by talking to the people whose stories interest them most.",
+          url: "https://podcasts.apple.com/us/podcast/one-to-one/id470508065",
+        },
+      ];
+
+      const podcastList = document.getElementById("podcastList");
+
+      podcasts.forEach((podcast) => {
+        const card = document.createElement("div");
+        card.className = "podcast-card";
+
+        card.innerHTML = `
+        <div class="podcast-title">
+          <a href="${podcast.url}" target="_blank" rel="noopener noreferrer">${podcast.name}</a>
+        </div>
+        <div class="podcast-author">${podcast.author}</div>
+        <div class="podcast-description">${podcast.description}</div>
+      `;
+
+        podcastList.appendChild(card);
+      });
+    </script>
+  </body>
+</html>

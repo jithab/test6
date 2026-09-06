@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>German Flashcard Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      #remaining {
+        font-size: 60px;
+        line-height: 2;
+        color: #ddd;
+        text-align: center;
+      }
+
+      #card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      #finished {
+        font-size: 44px;
+        color: red;
+        font-weight: bold;
+      }
+
+      #de {
+        font-size: 40px;
+        font-weight: bold;
+        word-break: break-word;
+      }
+
+      #ipa {
+        margin-top: 10px;
+        font-style: italic;
+        font-size: 28px;
+      }
+
+      .meaning-option {
+        font-size: 20px;
+        margin: 10px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        border: 2px solid #ccc;
+        background-color: #ffffff;
+        cursor: pointer;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .meaning-option.correct {
+        background-color: #c8f7c5;
+      }
+
+      .meaning-option.incorrect {
+        background-color: #f7c5c5;
+      }
+
+      #table-toggle {
+        margin-bottom: 10px;
+        visibility: hidden;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 6px;
+        text-align: center;
+      }
+
+      #word-table {
+        display: none;
+      }
+
+      #reset-btn {
+        display: none;
+        margin: 10px auto;
+        background-color: #ff6666;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="remaining"></div>
+    <div id="main-container">
+      <div id="card">
+        <div id="de"></div>
+        <div id="ipa"></div>
+
+        <div id="choice-section" style="margin-top: 20px">
+          <button id="option1" class="meaning-option"></button>
+          <button id="option2" class="meaning-option"></button>
+        </div>
+      </div>
+    </div>
+
+    <button id="table-toggle">Show Table</button>
+
+    <div id="word-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Word (de)</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <button id="reset-btn">🔁 Reset Game</button>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const fileName = params.get("file");
+      if (!fileName) {
+        alert("Missing 'file' parameter in URL.");
+        throw new Error("Missing file parameter.");
+      }
+
+      let words = [];
+      let currentIndex = 0;
+
+      function loadFromStorageOrFetch() {
+        const stored = localStorage.getItem(fileName);
+        if (stored) {
+          words = JSON.parse(stored);
+          nextWord();
+          updateTable();
+          updateProgress();
+        } else {
+          fetch(fileName)
+            .then((res) => res.json())
+            .then((data) => {
+              if (!data.words)
+                throw new Error("Invalid JSON: Missing 'words' array.");
+              words = data.words.map((w) => ({ ...w, count: 0 }));
+              localStorage.setItem(fileName, JSON.stringify(words));
+              nextWord();
+              updateTable();
+              updateProgress();
+            })
+            .catch((err) => {
+              alert("Failed to load JSON: " + err.message);
+            });
+        }
+      }
+
+      function saveToLocalStorage() {
+        localStorage.setItem(fileName, JSON.stringify(words));
+        updateTable();
+        updateProgress();
+      }
+
+      function nextWord() {
+        clearTimeout(window.autoNextTimer);
+
+        document.getElementById("option1").disabled = false;
+        document.getElementById("option2").disabled = false;
+        document.getElementById("option1").className = "meaning-option";
+        document.getElementById("option2").className = "meaning-option";
+
+        if (words.length === 0) {
+          document.getElementById("card").innerHTML =
+            "<p id='finished'>„Eines Tages werde ich Deutsch sprechen.“ <br/>🎉</p>";
+          updateProgress();
+          return;
+        }
+
+        currentIndex = Math.floor(Math.random() * words.length);
+        const word = words[currentIndex];
+
+        document.getElementById("de").textContent = word.de;
+        document.getElementById("ipa").textContent = word.ipa;
+        document.getElementById("ipa").style.display = "block";
+
+        // Select incorrect meaning from same part of speech
+        const samePOSWords = words.filter(
+          (w) => w.ps === word.ps && w.en !== word.en
+        );
+        let incorrectMeaning = "";
+
+        if (samePOSWords.length > 0) {
+          const random =
+            samePOSWords[Math.floor(Math.random() * samePOSWords.length)];
+          incorrectMeaning = random.en;
+        } else {
+          // Fallback: show same meaning again
+          incorrectMeaning = word.en;
+        }
+
+        const options = [word.en, incorrectMeaning].sort(
+          () => Math.random() - 0.5
+        );
+        document.getElementById("option1").textContent = options[0];
+        document.getElementById("option2").textContent = options[1];
+
+        updateProgress();
+      }
+
+      function handleAnswer(selectedButton) {
+        const selected = selectedButton.textContent;
+        const correct = words[currentIndex].en;
+        const isCorrect = selected === correct;
+
+        if (isCorrect) {
+          selectedButton.classList.add("correct");
+          words.splice(currentIndex, 1);
+          delay = 500;
+        } else {
+          selectedButton.classList.add("incorrect");
+          if (words[currentIndex].count > 0) words[currentIndex].count = 0;
+          words[currentIndex].count -= 1;
+          if (words[currentIndex].count <= -3) words.splice(currentIndex, 1);
+          delay = 5000;
+        }
+
+        saveToLocalStorage();
+        document.getElementById("option1").disabled = true;
+        document.getElementById("option2").disabled = true;
+
+        window.autoNextTimer = setTimeout(() => {
+          nextWord();
+        }, delay);
+      }
+
+      document.getElementById("option1").onclick = function () {
+        handleAnswer(this);
+      };
+      document.getElementById("option2").onclick = function () {
+        handleAnswer(this);
+      };
+
+      document.getElementById("table-toggle").onclick = () => {
+        const tableDiv = document.getElementById("word-table");
+        const toggleBtn = document.getElementById("table-toggle");
+        const resetBtn = document.getElementById("reset-btn");
+        const isVisible = tableDiv.style.display === "block";
+
+        tableDiv.style.display = isVisible ? "none" : "block";
+        resetBtn.style.display = isVisible ? "none" : "block";
+        toggleBtn.textContent = isVisible ? "Show Table" : "Hide Table";
+      };
+
+      document.getElementById("reset-btn").onclick = () => {
+        if (confirm("Are you sure you want to reset progress?")) {
+          localStorage.removeItem(fileName);
+          location.reload();
+        }
+      };
+
+      function updateTable() {
+        const tableBody = document.getElementById("table-body");
+        tableBody.innerHTML = "";
+        words.forEach((word) => {
+          const row = document.createElement("tr");
+          const wordCell = document.createElement("td");
+          const countCell = document.createElement("td");
+          wordCell.textContent = word.de;
+          countCell.textContent = word.count;
+          row.appendChild(wordCell);
+          row.appendChild(countCell);
+          tableBody.appendChild(row);
+        });
+      }
+
+      function updateProgress() {
+        document.getElementById("remaining").textContent = `${words.length}`;
+      }
+
+      loadFromStorageOrFetch();
+    </script>
+  </body>
+</html>
