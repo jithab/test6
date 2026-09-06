@@ -15,8 +15,6 @@ function home() {
 }
 
 function plain(index) {
-    recordingTime = 0;
-    position = 0;
 
     $("#help").hide();   
     $("#home").text("Home");
@@ -36,35 +34,10 @@ function plain(index) {
     $("#submain .ob").html(portion.o);
     $("#submain .pb").html(portion.p);
     $("#submain .ab").html(portion.a);
-    $("#submain").show().data("index", index)
-    position = -10;
-    buttonReset();
+    $("#submain").show().data("index", index);
     $("footer div").visible();
 }
 
-function buttonReset() {
-    $('#audio_duration, #record_duration').text("");
-    $("#buttongroup button").removeClass("disabled");
-    $("#recording .text").text("Record");
-    if(position==-10)
-        $("#play").addClass("disabled");
-    $("#play .text").text("Play");
-}
-
-function mediass() {
-    $("#buttongroup button").addClass("disabled");
-    mcap.play((counter) => {
-        $("#play").removeClass("disabled").find(".text").text("Stop");
-        position = counter;
-        mediaTimer();
-    }, (error) => {
-        alert(error); 
-        buttonReset();
-    });
-}
-
-var position = -10;
-var recordingTime = 0;
 
 function setHomeFont() {
     let articleHeight = $("article").height();
@@ -79,38 +52,6 @@ function setHomeFont() {
     }
 }
 
-
-function stopRecordingAndPlay() {
-    buttonReset();
-    mcap.stopRecording(()=>{
-        position = 0;
-        mediass();
-    }, function(error) {
-        buttonReset();
-        if(error)
-            alert(error);
-    });
-}
-
-function recordingTimer () {
-    document.getElementById('record_duration').innerHTML =  recordingTime;        
-    if(recordingTime<=0) {
-        stopRecordingAndPlay();
-        return;
-    }
-    setTimeout(recordingTimer, 1000);
-    recordingTime--;
-}
-
-function mediaTimer () {
-    document.getElementById('audio_duration').innerHTML =  Math.round(position/1000);        
-    if(position<=0) {
-        buttonReset();
-        return;
-    }
-    setTimeout(mediaTimer, 500);
-    position-=500;
-}
 
 function init() {
     home();
@@ -148,7 +89,6 @@ function init() {
         $("#buttongroup button").addClass("disabled");
         let portion = portions[getLang()][$("#submain").data("index")];
         portion.u.play();
-        portion.u.onended = buttonReset;
     });
 
     $("#main").on("click", "span", function () {
@@ -157,48 +97,6 @@ function init() {
         plain($(this).data("index"));
     });
     
-    // start audio capture
-    $("#recording").click(function() {
-        if($(this).hasClass("disabled"))
-            return;
-
-        let record = $(this).find (".text").text() == "Record";
-        $("#buttongroup button").addClass("disabled");
-        if(record) {
-            mcap.startRecording(function (starrted) {
-                if(starrted) {
-                    $("#recording").removeClass("disabled").find(".text").text("Stop");
-                    recordingTime = 60;
-                    recordingTimer();
-                }
-                else {
-                    buttonReset();
-                }
-            }, function(error) {
-                buttonReset();
-                if(error)
-                    alert(error);
-            });
-        }
-        else {
-            recordingTime=0;
-        }
-    });
-
-    $("#play").click(function() {
-        if($(this).hasClass("disabled"))
-            return;
-        let play = $(this).find (".text").text() == "Play";
-        $("#buttongroup button").addClass("disabled");
-        if(play) {
-            mediass();
-        }
-        else {
-            position=0;
-            buttonReset();
-            mcap.stop();
-        }
-    });
 
     $("#change").click(function() {
         setLang(getLang()=="uk" ? "us" : "uk");

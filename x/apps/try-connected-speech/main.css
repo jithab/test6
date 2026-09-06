@@ -1,179 +1,176 @@
 body {
-  margin: 0;
+  max-width: 960px;
+  margin: 0 auto;
   padding: 0;
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
 }
+
 body,
 * {
   user-select: none;
 }
+
 header {
   font-weight: bold;
-  font-size: 3vh;
+  font-size: clamp(18px, 3vw, 28px);
   color: white;
   width: 100%;
-  line-height: 6vh;
+  line-height: clamp(40px, 6vh, 60px);
   text-align: center;
   display: flex;
   justify-content: space-between;
 }
+
 header #next {
   padding-right: 5vw;
 }
+
 header #prev {
   padding-left: 5vw;
 }
+
 header,
 footer {
   background-color: hsl(200, 30%, 40%);
 }
+
 article {
   position: relative;
   flex-grow: 1;
 }
+
 footer {
   display: flex;
   justify-content: space-between;
-  line-height: calc(2vh + 4vw);
-  font-size: 4vw;
+  line-height: clamp(40px, 6vh, 60px);
+  font-size: clamp(18px, 4vw, 26px);
   color: white;
   padding: 0 10vw;
 }
+
 footer #change {
   color: #AAA;
-  font-size: 3vw;
+  font-size: clamp(13px, 3vw, 18px);
 }
+
 #submain {
-  padding: 0vw 4vw 2vw 4vw;
+  padding: 0 4vw 2vw;
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
 }
-#submain button {
-  color: #400000;
-  width: 25vw;
-  line-height: 2;
-  font-size: 5vw;
-  border: 1px solid hsl(200, 30%, 40%);
-}
-#submain button.disabled {
-  opacity: 0.33;
-}
+
 #submain #explainbox {
   flex-grow: 1;
 }
-#submain #start {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  margin-bottom: 8vw;
-}
-#submain #recording {
-  position: relative;
-  border-top-left-radius: 4px;
-}
-#submain #play {
-  position: relative;
-  border-top-right-radius: 1vw;
-}
-#submain #buttongroup {
-  padding: 0 5vw 3vh 5vw;
-}
-#submain #recordbox {
+
+#start {
   text-align: center;
-  border-collapse: collapse;
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px dotted #EEE;
+  font-size: clamp(18px, 3vw, 28px);
+  margin-top: 2vw;
+  margin-bottom: 4vw;
 }
-#submain #recordbox #record_duration,
-#submain #recordbox #audio_duration {
-  position: absolute;
-  bottom: 0;
-  right: 1vw;
-  color: #888;
-  font-size: 2.5vw;
+#start span {
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid #888;
 }
+
+#submain #buttongroup {
+  padding: 0 5vw 3vh;
+}
+
 #submain #countbox {
   color: #888;
   padding-top: 4vw;
-  font-size: 3vw;
+  font-size: clamp(13px, 3vw, 18px);
   text-align: right;
 }
+
 #submain #countbox #count {
   color: #228;
 }
+
 #submain .ot,
 #submain .at,
 #submain .pt {
   color: #AAA;
-  font-size: 3vw;
+  font-size: clamp(13px, 3vw, 18px);
   margin-top: 4vw;
   margin-bottom: 1vw;
 }
+
 #submain .ot {
   margin-top: 2vw;
 }
+
 #submain .ob {
-  font-size: 4vw;
-  line-height: 1.4;
-}
-#submain .pb {
-  font-size: 4.5vw;
+  font-size: clamp(16px, 4vw, 22px);
   line-height: 1.5;
 }
-#submain .ab {
-  font-size: 5vw;
-  line-height: 1.6;
+
+#submain .pb {
+  font-size: clamp(18px, 4.5vw, 25px);
+  line-height: 1.5;
 }
+
+#submain .ab {
+  font-size: clamp(20px, 5vw, 28px);
+  line-height: 1.5;
+}
+
 #submain .ob,
 #submain .pb,
 #submain .ab {
   color: #000040;
 }
+
 #help {
   display: none;
-  font-size: 4vw;
-  padding: 4vw 2vw 0 2vw;
+  font-size: clamp(16px, 4vw, 22px);
+  padding: 4vw 2vw 0;
 }
+
 #help .title {
   padding-top: 4vw;
   font-weight: bold;
 }
+
 #help a {
   text-decoration: none;
 }
+
 #help a,
 #help a:visited {
   color: blue;
 }
+
 #help li {
   padding-bottom: 3vw;
 }
+
 #help .small {
-  font-size: 3vw;
+  font-size: clamp(12px, 3vw, 17px);
 }
+
 #help .h1 {
   font-weight: bold;
   text-align: center;
-  font-size: 5vw;
+  font-size: clamp(20px, 5vw, 30px);
   padding-top: 4vw;
   padding-bottom: 3vw;
 }
+
 #main {
-  font-size: 4vw;
-  line-height: 1.5;
+  font-size: clamp(16px, 4vw, 22px);
+  line-height: 1.6;
   font-family: serif;
 }
+
 #main .title {
   color: #004000;
   text-align: center;
@@ -181,6 +178,7 @@ footer #change {
   margin-top: 5vh;
   margin-bottom: 3vh;
 }
+
 #main .body {
   padding: 0 2vw;
   text-align: center;
