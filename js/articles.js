@@ -1,7 +1,7 @@
 let books = [
   {
     country: "USA",
-    weight: 5 * 5,
+    weight: 5,
     chapters: [
       {
         name: "The New York Times",
@@ -17,7 +17,7 @@ let books = [
   },
   {
     country: "UK",
-    weight: 5 * 5,
+    weight: 5,
     chapters: [
       {
         name: "The Guardian",
@@ -37,8 +37,24 @@ let books = [
     ],
   },
   {
+    country: "Qatar",
+    weight: 4,
+    chapters: [
+      {
+        name: "Al Jazeera",
+        url: "https://www.aljazeera.com/",
+        weight: 4,
+      },
+      {
+        name: "Opinion",
+        url: "https://www.aljazeera.com/opinion/",
+        weight: 5,
+      },
+    ],
+  },
+  {
     country: "USA",
-    weight: 5 * 5,
+    weight: 3,
     chapters: [
       {
         name: "The Washington Post",
@@ -59,7 +75,7 @@ let books = [
   },
   {
     country: "USA",
-    weight: 3 * 5,
+    weight: 3,
     chapters: [
       {
         name: "The Atlantic",
@@ -69,8 +85,30 @@ let books = [
     ],
   },
   {
+    country: "Australia",
+    weight: 3,
+    chapters: [
+      {
+        name: "Aeon Essays",
+        url: "https://aeon.co/essays",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Australia",
+    weight: 3,
+    chapters: [
+      {
+        name: "The Conversation",
+        url: "https://theconversation.com/global",
+        weight: 5,
+      },
+    ],
+  },
+  {
     country: "USA",
-    weight: 3 * 5,
+    weight: 3,
     chapters: [
       {
         name: "The New Yorker",
@@ -81,7 +119,7 @@ let books = [
   },
   {
     country: "USA",
-    weight: 3 * 3,
+    weight: 3 ,
     chapters: [
       {
         name: "Los Angeles Times",
@@ -95,26 +133,64 @@ let books = [
       },
     ],
   },
-  ,
   {
-    country: "Qatar",
-    weight: 5 * 4,
+    country: "Spain",
+    weight: 3,
     chapters: [
       {
-        name: "Al Jazeera",
-        url: "https://www.aljazeera.com/",
-        weight: 4,
+        name: "El País",
+        url: "https://english.elpais.com/",
+        weight: 5,
       },
+    ],
+  },
+  {
+    country: "Isreal",
+    weight: 2,
+    chapters: [
       {
-        name: "Opinion",
-        url: "https://www.aljazeera.com/opinion/",
+        name: "Haaretz",
+        url: "https://www.haaretz.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Pakistan",
+    weight: 1,
+    chapters: [
+      {
+        name: "The Express Tribune",
+        url: "https://tribune.com.pk/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Pakistan",
+    weight: 1,
+    chapters: [
+      {
+        name: "Dawn",
+        url: "https://www.dawn.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Isreal",
+    weight: 1,
+    chapters: [
+      {
+        name: "The Times of Israel",
+        url: "https://www.timesofisrael.com/",
         weight: 5,
       },
     ],
   },
   {
     country: "Singapore",
-    weight: 5 * 3,
+    weight: 1,
     chapters: [
       {
         name: "The Straits Times Opinion",
@@ -125,7 +201,7 @@ let books = [
   },
   {
     country: "China",
-    weight: 3 * 3,
+    weight: 1,
     chapters: [
       {
         name: "Global Times Opinion",
@@ -165,7 +241,7 @@ function processList() {
       if (chapterNumber > 0) name += " > " + book.chapters[chapterNumber].name;
       let endRange =
         (booksWeightStart +
-          (book.weight * chaptersWeightSoFar) / chaptersWeight) /
+          ((book.weight*5) * chaptersWeightSoFar) / chaptersWeight) /
         booksWeight;
       processedList.push({
         name: name,
@@ -175,7 +251,7 @@ function processList() {
         country: book.country,
       });
     });
-    booksWeightStart += book.weight;
+    booksWeightStart += (book.weight*5);
   });
 }
 function shuffleArray(array) {
