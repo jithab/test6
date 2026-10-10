@@ -119,7 +119,7 @@ let books = [
   },
   {
     country: "USA",
-    weight: 3 ,
+    weight: 3,
     chapters: [
       {
         name: "Los Angeles Times",
@@ -151,6 +151,28 @@ let books = [
       {
         name: "Haaretz",
         url: "https://www.haaretz.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "India",
+    weight: 2,
+    chapters: [
+      {
+        name: "The Hindu",
+        url: "https://www.thehindu.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "India",
+    weight: 2,
+    chapters: [
+      {
+        name: "Indian Express",
+        url: "https://indianexpress.com/",
         weight: 5,
       },
     ],
@@ -241,7 +263,7 @@ function processList() {
       if (chapterNumber > 0) name += " > " + book.chapters[chapterNumber].name;
       let endRange =
         (booksWeightStart +
-          ((book.weight*5) * chaptersWeightSoFar) / chaptersWeight) /
+          ((book.weight * 5) * chaptersWeightSoFar) / chaptersWeight) /
         booksWeight;
       processedList.push({
         name: name,
@@ -251,7 +273,7 @@ function processList() {
         country: book.country,
       });
     });
-    booksWeightStart += (book.weight*5);
+    booksWeightStart += (book.weight * 5);
   });
 }
 function shuffleArray(array) {
@@ -268,25 +290,25 @@ function shuffleArray(array) {
 
   return shuffledArray;
 }
-processList();
-let country = document.getElementById("country");
-let main = document.getElementsByTagName("h1")[0];
-while (main.firstChild) {
-  main.removeChild(main.firstChild);
+
+function doIt() {
+  processList();
+
+  const item = shuffleArray(processedList)[0];
+
+  const aTag = document.createElement("a");
+  aTag.href = item.url;
+  aTag.target = item.target;
+  aTag.textContent = item.name;
+
+  document.querySelector("h1").replaceChildren(aTag);
+  document.getElementById("country").textContent = item.country;
 }
-let ul = document.getElementById("list");
-let shuffled = shuffleArray(processedList);
-shuffled.forEach(function (item, index) {
-  let aTag = document.createElement("a");
-  aTag.setAttribute("href", item.url);
-  aTag.setAttribute("target", item.target);
-  aTag.innerText = item.name;
-  let li = document.createElement("li");
-  li.appendChild(aTag);
-  if (index == 0) {
-    main.appendChild(aTag);
-    country.appendChild(document.createTextNode(item.country));
-  } else {
-    ul.appendChild(li);
-  }
+doIt();
+document.getElementById('goButton').addEventListener('click', function() {
+    const link = document.querySelector('h1 a');
+
+    if (link) {
+        link.click();
+    }
 });
