@@ -173,6 +173,46 @@ type: util
     `;
     tbody.appendChild(tr);
   });
+
+
+  /* ============================================================
+     AI PROMPT (for generating new word entries)
+     ------------------------------------------------------------
+     You are a linguist specializing in South Indian Dravidian languages
+     (Malayalam, Tamil, Kannada) with deep knowledge of Sanskrit, Prakrit,
+     and Tamil loanword etymologies.
+
+     I will give you a single word (transliterated in English/Roman script).
+     The same word exists in Malayalam, Tamil, and Kannada, but may carry
+     different meanings, shades, or usages in each language.
+
+     WORD: <enter word here, e.g. vivasayam, makkal, etc.>
+
+     For each of the three languages, provide:
+     1. pron   → the pronunciation in Roman/IAST transliteration
+                 (with diacritics for long vowels and retroflex consonants)
+     2. meaning → the primary English meaning AND any secondary/different
+                  meanings it carries in that specific language
+     3. native  → the word written in the native script
+                  (Malayalam script, Tamil script, Kannada script)
+
+     IMPORTANT RULES:
+     - If the word has a DIFFERENT meaning in each language, highlight that
+       difference in the "meaning" field (e.g. "Malayalam: agriculture;
+       Tamil: business/trade").
+     - If the word is a false friend / false cognate across languages,
+       point it out in the meaning field.
+     - Use accurate IAST diacritics (ā, ī, ū, ṇ, ḷ, ṟ, ṉ, ś, ṣ, ṁ, etc.).
+     - Keep meanings concise (max 6–8 words per language).
+
+     Output ONLY valid JSON, in this exact structure, with no extra text:
+
+     {
+       "malayalam": { "pron": "", "meaning": "", "native": "" },
+       "tamil":     { "pron": "", "meaning": "", "native": "" },
+       "kannada":   { "pron": "", "meaning": "", "native": "" }
+     }
+     ============================================================ */
 </script>
 
 </div>

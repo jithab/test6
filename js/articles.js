@@ -1,7 +1,10 @@
 let books = [
+  /*********************************
+  * Weight 6
+  **********************************/
   {
     country: "USA",
-    weight: 5,
+    weight: 6,
     chapters: [
       {
         name: "The New York Times",
@@ -17,7 +20,7 @@ let books = [
   },
   {
     country: "UK",
-    weight: 5,
+    weight: 6,
     chapters: [
       {
         name: "The Guardian",
@@ -36,9 +39,13 @@ let books = [
       },
     ],
   },
+
+  /*********************************
+  * Weight 5
+  **********************************/
   {
     country: "Qatar",
-    weight: 4,
+    weight: 5,
     chapters: [
       {
         name: "Al Jazeera",
@@ -52,6 +59,107 @@ let books = [
       },
     ],
   },
+  {
+    country: "USA",
+    weight: 5,
+    chapters: [
+      {
+        name: "CNN",
+        url: "https://edition.cnn.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "UK",
+    weight: 5,
+    chapters: [
+      {
+        name: "BBC",
+        url: "https://www.bbc.com/news",
+        weight: 5,
+      },
+    ],
+  },
+
+  /*********************************
+  * Weight 4
+  **********************************/
+  {
+    country: "USA",
+    weight: 4,
+    chapters: [
+      {
+        name: "The Atlantic",
+        url: "https://www.theatlantic.com/world/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Australia",
+    weight: 4,
+    chapters: [
+      {
+        name: "Aeon Essays",
+        url: "https://aeon.co/essays",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Australia",
+    weight: 4,
+    chapters: [
+      {
+        name: "The Conversation",
+        url: "https://theconversation.com/global",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "USA",
+    weight: 4,
+    chapters: [
+      {
+        name: "The New Yorker",
+        url: "https://www.newyorker.com/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "USA",
+    weight: 4,
+    chapters: [
+      {
+        name: "Los Angeles Times",
+        url: "https://www.latimes.com/",
+        weight: 1,
+      },
+      {
+        name: "Obituaries",
+        url: "https://www.latimes.com/obituaries/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "Spain",
+    weight: 4,
+    chapters: [
+      {
+        name: "El País",
+        url: "https://english.elpais.com/",
+        weight: 5,
+      },
+    ],
+  },
+
+  /*********************************
+  * Weight 3
+  **********************************/
   {
     country: "USA",
     weight: 3,
@@ -74,79 +182,8 @@ let books = [
     ],
   },
   {
-    country: "USA",
-    weight: 3,
-    chapters: [
-      {
-        name: "The Atlantic",
-        url: "https://www.theatlantic.com/world/",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "Australia",
-    weight: 3,
-    chapters: [
-      {
-        name: "Aeon Essays",
-        url: "https://aeon.co/essays",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "Australia",
-    weight: 3,
-    chapters: [
-      {
-        name: "The Conversation",
-        url: "https://theconversation.com/global",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "USA",
-    weight: 3,
-    chapters: [
-      {
-        name: "The New Yorker",
-        url: "https://www.newyorker.com/",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "USA",
-    weight: 3,
-    chapters: [
-      {
-        name: "Los Angeles Times",
-        url: "https://www.latimes.com/",
-        weight: 1,
-      },
-      {
-        name: "Obituaries",
-        url: "https://www.latimes.com/obituaries/",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "Spain",
-    weight: 3,
-    chapters: [
-      {
-        name: "El País",
-        url: "https://english.elpais.com/",
-        weight: 5,
-      },
-    ],
-  },
-  {
     country: "Isreal",
-    weight: 2,
+    weight: 3,
     chapters: [
       {
         name: "Haaretz",
@@ -157,7 +194,7 @@ let books = [
   },
   {
     country: "India",
-    weight: 2,
+    weight: 3,
     chapters: [
       {
         name: "The Hindu",
@@ -168,7 +205,7 @@ let books = [
   },
   {
     country: "India",
-    weight: 2,
+    weight: 3,
     chapters: [
       {
         name: "Indian Express",
@@ -177,6 +214,59 @@ let books = [
       },
     ],
   },
+
+
+  /*********************************
+  * Weight 2
+  **********************************/
+  {
+    country: "Japan",
+    weight: 2,
+    chapters: [
+      {
+        name: "The Japan Times",
+        url: "https://www.japantimes.co.jp/",
+        weight: 5,
+      },
+    ],
+  },
+  {
+    country: "South Korea",
+    weight: 2,
+    chapters: [
+      {
+        name: "The Korea Herald",
+        url: "https://www.koreaherald.com/",
+        weight: 5,
+      },
+    ],
+  }, {
+    country: "USA",
+    weight: 2,
+    chapters: [
+      {
+        name: "The Hollywood Reporter",
+        url: "https://www.hollywoodreporter.com/",
+        weight: 5,
+      },
+    ],
+  },
+
+  {
+    country: "USA",
+    weight: 2,
+    chapters: [
+      {
+        name: "Variety",
+        url: "https://variety.com/",
+        weight: 5,
+      },
+    ],
+  },
+
+  /*********************************
+  * Weight 1
+  **********************************/
   {
     country: "Pakistan",
     weight: 1,
@@ -200,28 +290,6 @@ let books = [
     ],
   },
   {
-    country: "Isreal",
-    weight: 1,
-    chapters: [
-      {
-        name: "The Times of Israel",
-        url: "https://www.timesofisrael.com/",
-        weight: 5,
-      },
-    ],
-  },
-  {
-    country: "Singapore",
-    weight: 1,
-    chapters: [
-      {
-        name: "The Straits Times Opinion",
-        url: "https://www.straitstimes.com/opinion",
-        weight: 5,
-      },
-    ],
-  },
-  {
     country: "China",
     weight: 1,
     chapters: [
@@ -231,7 +299,37 @@ let books = [
         weight: 5,
       },
     ],
-  },
+  }, {
+    country: "Iran",
+    weight: 1,
+    chapters: [
+      {
+        name: "Tehran Times",
+        url: "https://www.tehrantimes.com/",
+        weight: 5,
+      },
+    ],
+  }, {
+    country: "Isreal",
+    weight: 1,
+    chapters: [
+      {
+        name: "The Times of Israel",
+        url: "https://www.timesofisrael.com/",
+        weight: 5,
+      },
+    ],
+  }, {
+    country: "Singapore",
+    weight: 1,
+    chapters: [
+      {
+        name: "The Straits Times Opinion",
+        url: "https://www.straitstimes.com/opinion",
+        weight: 5,
+      },
+    ],
+  }
 ];
 
 let processedList = [];
@@ -246,7 +344,6 @@ function getTotalWeight(items) {
 
 function processList() {
   let booksWeight = getTotalWeight(books);
-  console.log("Total Weight: " + booksWeight);
   let booksWeightStart = 0;
   books.forEach(function (book, index) {
     let chaptersWeight = getTotalWeight(book.chapters);
@@ -254,10 +351,6 @@ function processList() {
     let chaptersWeightSoFar = 0;
     book.chapters.forEach(function (chapter, chapterNumber) {
       chaptersWeightSoFar += chapter.weight;
-      console.log("Name " + chapter.name);
-
-      //console.log("1 Start: " + booksWeightStart + ", Weight: " + booksWeight);
-      //console.log("2 Start: " + bookWeightSoFar + ", Weight: " + bookWeight);
 
       let name = book.chapters[0].name;
       if (chapterNumber > 0) name += " > " + book.chapters[chapterNumber].name;
@@ -305,10 +398,11 @@ function doIt() {
   document.getElementById("country").textContent = item.country;
 }
 doIt();
-document.getElementById('goButton').addEventListener('click', function() {
-    const link = document.querySelector('h1 a');
+document.getElementById('goButton').addEventListener('click', function () {
+  const link = document.querySelector('h1 a');
 
-    if (link) {
-        link.click();
-    }
+  if (link) {
+    link.click();
+    doIt();
+  }
 });
